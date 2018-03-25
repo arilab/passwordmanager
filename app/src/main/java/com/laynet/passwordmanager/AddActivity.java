@@ -20,21 +20,30 @@ public class AddActivity extends AppCompatActivity {
         Button cancelButton = findViewById(R.id.cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {setResult(RESULT_CANCELED); finish();}
+            public void onClick(View view) {setResult(EntriesActivity.CANCEL_RESULT); finish();}
         });
 
         Button addButton = findViewById(R.id.addButton);
         addButton.setTag(0);
+        Button deleteButton = findViewById(R.id.delete);
+        deleteButton.setVisibility(View.INVISIBLE);
         final Entry entry = getIntent().getParcelableExtra(EntryOnClickListener.ENTRY_ID);
         if (entry.id != 0) {
             addButton.setText(R.string.edit);
             addButton.setTag(entry.id);
+            deleteButton.setVisibility(View.VISIBLE);
             displayEntryDetails(entry);
         }
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveEntry(createEntryFromDetails());
+            }
+        });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteEntry(createEntryFromDetails());
             }
         });
     }
@@ -59,7 +68,14 @@ public class AddActivity extends AppCompatActivity {
     private void saveEntry(Entry entry) {
         Intent output = new Intent();
         output.putExtra(EntryOnClickListener.ENTRY_ID, entry);
-        setResult(RESULT_OK, output);
+        setResult(EntriesActivity.SAVE_RESULT, output);
+        finish();
+    }
+
+    private void deleteEntry(Entry entry) {
+        Intent output = new Intent();
+        output.putExtra(EntryOnClickListener.ENTRY_ID, entry);
+        setResult(EntriesActivity.DELETE_RESULT, output);
         finish();
     }
 }

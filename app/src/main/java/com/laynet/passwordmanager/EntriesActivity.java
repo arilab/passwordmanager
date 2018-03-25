@@ -14,6 +14,7 @@ import com.laynet.passwordmanager.model.Entry;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -23,6 +24,10 @@ public class EntriesActivity extends AppCompatActivity {
     private EntryArrayAdapter listAdapter;
 
     public static final int SAVE_ACTIVITY = 1;
+
+    public static final int SAVE_RESULT = 1;
+    public static final int DELETE_RESULT = 2;
+    public static final int CANCEL_RESULT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +63,45 @@ public class EntriesActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode != RESULT_OK)
+        if (resultCode == CANCEL_RESULT)
             return;
 
-        if (requestCode == SAVE_ACTIVITY) {
+        if (resultCode == SAVE_RESULT) {
             Entry newEntry = intent.getParcelableExtra(EntryOnClickListener.ENTRY_ID);
-            if (newEntry.id == 0) {
-                newEntry.id = entries.size() + 1;
-                entries.add(newEntry);
-            } else {
-                for (Entry entry : entries) {
-                    if (entry.id == newEntry.id) {
-                        entry.name = newEntry.name;
-                        entry.login = newEntry.login;
-                        entry.password = newEntry.password;
-                        break;
-                    }
-                }
-            }
+            saveEntry(newEntry);
+        }
+
+        if (resultCode == DELETE_RESULT) {
+            Entry entryToDelete = intent.getParcelableExtra(EntryOnClickListener.ENTRY_ID);
+            deleteEntry(entryToDelete);
         }
 
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void saveEntry(Entry newEntry) {
+        if (newEntry.id == 0) {
+            newEntry.id = entries.size() + 1;
+            entries.add(newEntry);
+        } else {
+            for (Entry entry : entries) {
+                if (entry.id == newEntry.id) {
+                    entry.name = newEntry.name;
+                    entry.login = newEntry.login;
+                    entry.password = newEntry.password;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void deleteEntry(Entry entryToDelete) {
+        for (Iterator<Entry> it = entries.iterator(); it.hasNext();) {
+            if (it.next().id == entryToDelete.id) {
+                it.remove();
+                break;
+            }
+        }
     }
 
     private void createFileIfMissing() {
