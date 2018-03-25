@@ -38,11 +38,12 @@
             android:labelFor="@id/masterPassword" />
 
         <TextView
+            android:id="@+id/wrongpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/wrongPassword"
             android:textColor="@android:color/holo_red_dark"
-            android:visibility="invisible"
-            tools:text="@string/wrongPassword" />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/enter"

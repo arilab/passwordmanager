@@ -21,30 +21,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         Button enterButton = findViewById(R.id.enter);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText masterPasswordEdit = findViewById(R.id.masterPassword);
-//                if (validatePassword(masterPasswordEdit.getText().toString())) {
-//                    Intent intent = new Intent(MainActivity.this, EntriesActivity.class);
-//                    startActivity(intent);
-//                }
-//                else {
-//                    displayWrongPasswordError();
-//                }
+                String password = masterPasswordEdit.getText().toString();
+                masterPasswordEdit.setText("");
+                if (validatePassword(password)) {
+                    removeWrongPasswordError();
+                    Intent intent = new Intent(MainActivity.this, EntriesActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    displayWrongPasswordError();
+                }
             }
         });
     }
@@ -79,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayWrongPasswordError() {
-        LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        TextView textView = new TextView(this);
-//        textView.setId(R.id.);
-        textView.setText(R.string.wrongPassword);
-        textView.setTextColor(Color.RED);
-        linearLayout.addView(textView);
+        TextView textView = findViewById(R.id.wrongpassword);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    private void removeWrongPasswordError() {
+        TextView textView = findViewById(R.id.wrongpassword);
+        textView.setVisibility(View.INVISIBLE);
     }
 }
