@@ -12,11 +12,9 @@ import android.widget.Toast;
 
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
 import com.laynet.passwordmanager.model.Entry;
-import com.laynet.passwordmanager.persist.EntryReader;
-import com.laynet.passwordmanager.persist.FileSystem;
+import com.laynet.passwordmanager.persist.EntryPersistence;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +50,7 @@ public class EntriesActivity extends AppCompatActivity {
             try {
                 readEntriesFromFile();
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), R.string.fileloaderror, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.fileloadfailed, Toast.LENGTH_LONG).show();
             }
             retainedFragment = new RetainedFragment();
             fm.beginTransaction().add(retainedFragment, TAG_RETAINED_FRAGMENT).commit();
@@ -64,8 +62,7 @@ public class EntriesActivity extends AppCompatActivity {
     }
 
     private void readEntriesFromFile() throws IOException {
-        Reader fileReader = new FileSystem().openInternalFile(getApplicationContext());
-        entries.addAll(new EntryReader().read(fileReader));
+        entries.addAll(new EntryPersistence().read(getApplicationContext()));
     }
 
     private void mapEntriesToListView() {
@@ -99,6 +96,11 @@ public class EntriesActivity extends AppCompatActivity {
 
         listAdapter.notifyDataSetChanged();
         retainedFragment.setData(entries);
+        try {
+            new EntryPersistence().write(getApplicationContext(), entries);
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), R.string.filewritefailed, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void saveEntry(Entry newEntry) {

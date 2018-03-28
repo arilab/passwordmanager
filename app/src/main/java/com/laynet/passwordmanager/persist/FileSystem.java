@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -20,10 +21,11 @@ public class FileSystem {
         return new FileReader(file);
     }
 
-//    public void writeFile(Context context, FileOutputStream outputStream) throws IOException {
-//        File file = new File(context.getFilesDir(), FILESTORE);
-//        FileWriter fileWriter = new FileWriter(file);
-//        fileWriter.write(outputStream);
-//    }
+    public void writeFile(Context context, String content) throws IOException {
+        File file = new File(context.getFilesDir(), FILESTORE);
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(content);
+        fileWriter.close();
+    }
 
 }

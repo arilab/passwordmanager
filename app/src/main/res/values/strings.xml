@@ -12,5 +12,6 @@
     <string name="wrongPassword">Wrong password</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
-    <string name="fileloaderror">Internal file load failed.</string>
+    <string name="fileloadfailed">Internal file load failed.</string>
+    <string name="filewritefailed">Internal file write failed.</string>
 </resources>
