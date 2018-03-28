@@ -1,5 +1,6 @@
 package com.laynet.passwordmanager;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -7,12 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
 import com.laynet.passwordmanager.model.Entry;
+import com.laynet.passwordmanager.persist.EntryReader;
+import com.laynet.passwordmanager.persist.FileSystem;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +33,10 @@ public class EntriesActivity extends AppCompatActivity {
     public static final int DELETE_RESULT = 2;
     public static final int CANCEL_RESULT = 3;
 
+    private final static String TAG_RETAINED_FRAGMENT = "retainedFragment";
+
+    private RetainedFragment retainedFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +45,30 @@ public class EntriesActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new EntryOnClickListener(this, new Entry()));
 
-        addItemsToListView();
+        FragmentManager fm = getFragmentManager();
+        retainedFragment = (RetainedFragment) fm.findFragmentByTag(TAG_RETAINED_FRAGMENT);
+
+        if (retainedFragment == null) {
+            try {
+                readEntriesFromFile();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), R.string.fileloaderror, Toast.LENGTH_LONG).show();
+            }
+            retainedFragment = new RetainedFragment();
+            fm.beginTransaction().add(retainedFragment, TAG_RETAINED_FRAGMENT).commit();
+            retainedFragment.setData(entries);
+        } else {
+            entries.addAll(retainedFragment.getData());
+        }
+        mapEntriesToListView();
     }
 
-    private void addItemsToListView() {
-        entries.add(new Entry(1, "Apple", "alainlay@me.com", "toto12"));
-        entries.add(new Entry(2, "Google", "alainlay@gmail.com", "toto12"));
-        entries.add(new Entry(3, "Facebook", "0211695668", "toto12"));
-        entries.add(new Entry(4, "Amazon", "alainlay@gmail.com", "toto12"));
-        entries.add(new Entry(5, "Twitter", "alainlay@hotmail.com", "toto12"));
-        entries.add(new Entry(6, "Twitch", "milchh", "toto12"));
+    private void readEntriesFromFile() throws IOException {
+        Reader fileReader = new FileSystem().openInternalFile(getApplicationContext());
+        entries.addAll(new EntryReader().read(fileReader));
+    }
+
+    private void mapEntriesToListView() {
         listAdapter = new EntryArrayAdapter(this, android.R.layout.simple_list_item_1, entries);
         ListView listView = findViewById(R.id.entries);
         listView.setAdapter(listAdapter);
@@ -58,7 +80,6 @@ public class EntriesActivity extends AppCompatActivity {
                 startActivityForResult(intent, SAVE_ACTIVITY);
             }
         });
-
     }
 
     @Override
@@ -77,6 +98,7 @@ public class EntriesActivity extends AppCompatActivity {
         }
 
         listAdapter.notifyDataSetChanged();
+        retainedFragment.setData(entries);
     }
 
     private void saveEntry(Entry newEntry) {
@@ -102,15 +124,5 @@ public class EntriesActivity extends AppCompatActivity {
                 break;
             }
         }
-    }
-
-    private void createFileIfMissing() {
-        File f = new File("passwords.txt");
-        if (!f.exists())
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
     }
 }
