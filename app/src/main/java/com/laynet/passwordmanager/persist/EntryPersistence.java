@@ -8,7 +8,6 @@ import com.laynet.passwordmanager.model.Entry;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -40,18 +40,22 @@
             android:labelFor="@id/login"
             tools:text="@string/login" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:labelFor="@id/password"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="194dp"
-            tools:text="@string/password" />
-
+            app:passwordToggleEnabled="true">
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:labelFor="@id/password"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="194dp"
+                tools:text="@string/password" />
+        </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
