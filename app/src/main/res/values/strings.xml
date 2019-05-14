@@ -10,8 +10,17 @@
     <string name="masterPassword">Master Password</string>
     <string name="enter">Enter</string>
     <string name="wrongPassword">Wrong password</string>
+    <string name="wrong_master_password">Master Passwords are different</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="fileloadfailed">Internal file load failed.</string>
     <string name="filewritefailed">Internal file write failed.</string>
+    <string name="init_password">Initialize your Master Password</string>
+    <string name="change_password">Change your Master Password</string>
+    <string name="current_password">Current Master Password</string>
+    <string name="new_password">New Master Password</string>
+    <string name="retype_password">Re-type New Master Password</string>
+    <string name="change">Change</string>
+    <string name="initialize">Initialize</string>
+    <string name="initialize_success">Master Password Initialized</string>
 </resources>

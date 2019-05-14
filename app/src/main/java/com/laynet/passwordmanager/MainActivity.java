@@ -10,8 +10,16 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.laynet.passwordmanager.model.Entry;
+import com.laynet.passwordmanager.persist.EntryPersistence;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int INIT_RESULT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +39,26 @@ public class MainActivity extends AppCompatActivity {
                     removeWrongPasswordError();
                     Intent intent = new Intent(MainActivity.this, EntriesActivity.class);
                     startActivity(intent);
-                }
-                else {
+                } else {
                     displayWrongPasswordError();
                 }
             }
         });
+
+        Button initButton = findViewById(R.id.init);
+        initButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, InitMasterPasswordActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode == INIT_RESULT)
+            Toast.makeText(getApplicationContext(), R.string.initialize_success, Toast.LENGTH_LONG).show();
     }
 
     @Override

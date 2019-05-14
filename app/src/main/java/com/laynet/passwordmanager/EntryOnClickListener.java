@@ -12,7 +12,7 @@ import com.laynet.passwordmanager.model.Entry;
 
 public class EntryOnClickListener implements View.OnClickListener {
 
-    public static final String ENTRY_ID = "com.example.myfirstapp.ENTRYID";
+    public static final String ENTRY_ID = "com.laynet.passwordmanager.ENTRYID";
 
     private final Entry entry;
     private Activity activity;
