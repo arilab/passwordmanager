@@ -53,8 +53,9 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
                     Intent output = new Intent();
                     setResult(MainActivity.INIT_RESULT, output);
                     finish();
+                } else {
+                    displayWrongPasswordError();
                 }
-                displayWrongPasswordError();
             }
         });
     }
