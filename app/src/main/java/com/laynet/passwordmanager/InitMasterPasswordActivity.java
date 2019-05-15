@@ -42,7 +42,7 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
                     new FileSystem().deleteFilestore(getApplicationContext());
 
                     List<Entry> entries = new ArrayList<>();
-                    Entry entry = new Entry(0, "Password Manager", "Me", "password");
+                    Entry entry = new Entry(1, "Password Manager", "Me", "password");
                     entries.add(entry);
                     try {
                         new EntryPersistence().write(getApplicationContext(), entries);
