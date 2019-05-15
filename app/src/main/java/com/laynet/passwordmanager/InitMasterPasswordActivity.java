@@ -1,13 +1,13 @@
 package com.laynet.passwordmanager;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.laynet.passwordmanager.model.Entry;
 import com.laynet.passwordmanager.persist.EntryPersistence;
@@ -47,7 +47,9 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
                     try {
                         new EntryPersistence().write(getApplicationContext(), entries);
                     } catch (IOException e) {
-                        Toast.makeText(getApplicationContext(), R.string.filewritefailed, Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar
+                                .make(view, R.string.filewritefailed, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
 
                     Intent output = new Intent();

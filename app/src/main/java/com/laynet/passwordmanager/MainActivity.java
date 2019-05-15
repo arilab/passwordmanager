@@ -2,6 +2,8 @@ package com.laynet.passwordmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,10 +12,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.laynet.passwordmanager.Exceptions.CryptoException;
-import com.laynet.passwordmanager.model.Entry;
 import com.laynet.passwordmanager.persist.EntryPersistence;
 import com.laynet.passwordmanager.security.MasterPassword;
 
@@ -59,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == INIT_RESULT)
-            Toast.makeText(getApplicationContext(), R.string.initialize_success, Toast.LENGTH_LONG).show();
+        if (resultCode == INIT_RESULT) {
+            CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, R.string.initialize_success, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     @Override

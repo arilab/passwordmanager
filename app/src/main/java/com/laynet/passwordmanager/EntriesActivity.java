@@ -2,13 +2,14 @@ package com.laynet.passwordmanager;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.laynet.passwordmanager.Exceptions.CryptoException;
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
@@ -51,9 +52,15 @@ public class EntriesActivity extends AppCompatActivity {
             try {
                 readEntriesFromFile();
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), R.string.fileloadfailed, Toast.LENGTH_LONG).show();
+                CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorEntries);
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, R.string.fileloadfailed, Snackbar.LENGTH_LONG);
+                snackbar.show();
             } catch (CryptoException e) {
-                Toast.makeText(getApplicationContext(), R.string.fileloadfailed, Toast.LENGTH_LONG).show();
+                CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorEntries);
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, R.string.fileloadfailed, Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
             retainedFragment = new RetainedFragment();
             fm.beginTransaction().add(retainedFragment, TAG_RETAINED_FRAGMENT).commit();
@@ -102,7 +109,10 @@ public class EntriesActivity extends AppCompatActivity {
         try {
             new EntryPersistence().write(getApplicationContext(), entries);
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), R.string.filewritefailed, Toast.LENGTH_LONG).show();
+            CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorEntries);
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, R.string.fileloadfailed, Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
