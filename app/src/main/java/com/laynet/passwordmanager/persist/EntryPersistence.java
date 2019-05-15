@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.laynet.passwordmanager.Exceptions.CryptoException;
 import com.laynet.passwordmanager.model.Entry;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class EntryPersistence {
 
-    public List<Entry> read(Context context) throws IOException {
+    public List<Entry> read(Context context) throws IOException, CryptoException {
         Reader fileReader = new FileSystem().openInternalFile(context);
         Gson gson = new Gson();
         Entry[] entriesArray = gson.fromJson(fileReader, Entry[].class);

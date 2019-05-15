@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.laynet.passwordmanager.Exceptions.CryptoException;
 import com.laynet.passwordmanager.model.Entry;
 import com.laynet.passwordmanager.persist.EntryPersistence;
+import com.laynet.passwordmanager.security.MasterPassword;
 
 import java.io.IOException;
 
@@ -84,10 +86,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword(String password) {
-        if (password == null)
+        if (password == null || password.trim().equals(""))
             return false;
-        String trimmedPassword = password.trim();
-        return trimmedPassword.equals("toto12");
+//        return password.equals("toto12");
+        MasterPassword.getInstance().setPassword(password);
+        try {
+            new EntryPersistence().read(getApplicationContext());
+        } catch (CryptoException e) {
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     private void displayWrongPasswordError() {

@@ -7,6 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.laynet.passwordmanager.model.Entry;
+import com.laynet.passwordmanager.persist.EntryPersistence;
+import com.laynet.passwordmanager.persist.FileSystem;
+import com.laynet.passwordmanager.security.MasterPassword;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InitMasterPasswordActivity extends AppCompatActivity {
 
@@ -26,20 +36,33 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
 
                 if (validatePassword(newPassword, retypePassword)) {
                     removeWrongPasswordError();
+
+                    MasterPassword.getInstance().setPassword(newPassword);
+
+                    new FileSystem().deleteFilestore(getApplicationContext());
+
+                    List<Entry> entries = new ArrayList<>();
+                    Entry entry = new Entry(0, "Password Manager", "Me", "password");
+                    entries.add(entry);
+                    try {
+                        new EntryPersistence().write(getApplicationContext(), entries);
+                    } catch (IOException e) {
+                        Toast.makeText(getApplicationContext(), R.string.filewritefailed, Toast.LENGTH_LONG).show();
+                    }
+
                     Intent output = new Intent();
                     setResult(MainActivity.INIT_RESULT, output);
                     finish();
-                } else {
-                    displayWrongPasswordError();
                 }
+                displayWrongPasswordError();
             }
         });
     }
 
     private boolean validatePassword(String newPassword, String retypePassword) {
-        if (newPassword == null || newPassword.equals(""))
+        if (newPassword == null || newPassword.trim().equals(""))
             return false;
-        if (retypePassword == null || retypePassword.equals(""))
+        if (retypePassword == null || retypePassword.trim().equals(""))
             return false;
         return newPassword.equals(retypePassword);
     }

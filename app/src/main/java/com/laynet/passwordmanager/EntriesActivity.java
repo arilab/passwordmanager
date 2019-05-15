@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.laynet.passwordmanager.Exceptions.CryptoException;
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
 import com.laynet.passwordmanager.model.Entry;
 import com.laynet.passwordmanager.persist.EntryPersistence;
@@ -51,6 +52,8 @@ public class EntriesActivity extends AppCompatActivity {
                 readEntriesFromFile();
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), R.string.fileloadfailed, Toast.LENGTH_LONG).show();
+            } catch (CryptoException e) {
+                Toast.makeText(getApplicationContext(), R.string.fileloadfailed, Toast.LENGTH_LONG).show();
             }
             retainedFragment = new RetainedFragment();
             fm.beginTransaction().add(retainedFragment, TAG_RETAINED_FRAGMENT).commit();
@@ -61,7 +64,7 @@ public class EntriesActivity extends AppCompatActivity {
         mapEntriesToListView();
     }
 
-    private void readEntriesFromFile() throws IOException {
+    private void readEntriesFromFile() throws IOException, CryptoException {
         entries.addAll(new EntryPersistence().read(getApplicationContext()));
     }
 

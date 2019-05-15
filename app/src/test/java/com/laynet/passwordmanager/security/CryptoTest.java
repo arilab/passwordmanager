@@ -1,5 +1,7 @@
 package com.laynet.passwordmanager.security;
 
+import com.laynet.passwordmanager.Exceptions.CryptoException;
+
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -29,7 +31,7 @@ public class CryptoTest {
     }
 
     @Test
-    public void encrypt_string_and_decrypt_with_the_same_password_should_return_the_same_string() throws NoSuchPaddingException, BadPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidAlgorithmParameterException, InvalidKeySpecException {
+    public void encrypt_string_and_decrypt_with_the_same_password_should_return_the_same_string() throws CryptoException {
         String password = "password";
         String plaintext = "test string";
 
@@ -38,5 +40,16 @@ public class CryptoTest {
         String actualPlaintext = crypto.decrypt(ciphertext, password);
 
         assertEquals(plaintext, actualPlaintext);
+    }
+
+    @Test(expected = CryptoException.class)
+    public void encrypt_string_and_decrypt_with_a_different_password_should_throw() throws CryptoException {
+        String password = "password";
+        String anotherPassword = "anotherPassword";
+        String plaintext = "test string";
+
+        Crypto crypto = new MyCrypto();
+        String ciphertext = crypto.encrypt(plaintext, password);
+        crypto.decrypt(ciphertext, anotherPassword);
     }
 }
