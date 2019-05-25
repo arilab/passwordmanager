@@ -1,6 +1,7 @@
 package com.laynet.passwordmanager.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,16 @@ import java.util.List;
 
 public class EntryArrayAdapter extends ArrayAdapter<Entry> {
 
-    private int layoutResource;
+    private final int layoutResource;
 
     public EntryArrayAdapter(Context context, int layoutResource, List<Entry> entries) {
         super(context, layoutResource, entries);
         this.layoutResource = layoutResource;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         View view = convertView;
 

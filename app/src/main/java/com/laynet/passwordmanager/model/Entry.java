@@ -23,7 +23,7 @@ public class Entry implements Parcelable {
         this.password = password;
     }
 
-    protected Entry(Parcel in) {
+    private Entry(Parcel in) {
         id = in.readInt();
         name = in.readString();
         login = in.readString();

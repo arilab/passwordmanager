@@ -10,12 +10,12 @@ import com.laynet.passwordmanager.model.Entry;
  * Created by alain on 20/03/2018.
  */
 
-public class EntryOnClickListener implements View.OnClickListener {
+class EntryOnClickListener implements View.OnClickListener {
 
     public static final String ENTRY_ID = "com.laynet.passwordmanager.ENTRYID";
 
     private final Entry entry;
-    private Activity activity;
+    private final Activity activity;
 
     public EntryOnClickListener(Activity activity, Entry entry) {
         this.entry = entry;

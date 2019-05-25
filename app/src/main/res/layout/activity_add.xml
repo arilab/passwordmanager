@@ -27,7 +27,6 @@
             android:ems="10"
             android:hint="@string/site"
             android:inputType="textPersonName"
-            android:labelFor="@id/name"
             tools:text="@string/site" />
 
         <EditText
@@ -37,7 +36,6 @@
             android:ems="10"
             android:hint="@string/login"
             android:inputType="textPersonName"
-            android:labelFor="@id/login"
             tools:text="@string/login" />
 
         <android.support.design.widget.TextInputLayout
@@ -51,7 +49,6 @@
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:labelFor="@id/password"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="194dp"
                 tools:text="@string/password" />
@@ -60,6 +57,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
 
             <Button
                 android:id="@+id/addButton"
@@ -67,13 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/add" />
-
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel" />
 
             <Button
                 android:id="@+id/delete"

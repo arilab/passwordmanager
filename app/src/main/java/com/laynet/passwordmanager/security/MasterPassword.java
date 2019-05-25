@@ -1,7 +1,7 @@
 package com.laynet.passwordmanager.security;
 
 public class MasterPassword {
-    private static MasterPassword masterPassword = new MasterPassword();
+    private static final MasterPassword masterPassword = new MasterPassword();
     private String pwd = "";
 
     private MasterPassword() {}

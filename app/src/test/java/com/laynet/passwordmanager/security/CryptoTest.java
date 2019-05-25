@@ -16,8 +16,7 @@ public class CryptoTest {
         }
 
         protected byte[] decodeBase64(String ciphertext) {
-            byte[] decodedBytes = Base64.getDecoder().decode(ciphertext);
-            return decodedBytes;
+            return Base64.getDecoder().decode(ciphertext);
         }
     }
 

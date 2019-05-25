@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import com.laynet.passwordmanager.exceptions.CryptoException;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -23,9 +23,11 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Crypto {
-    private int iterationCount = 1000;
-    private int keyLength = 256;
-    private int saltLength = keyLength / 8; // same size as key output
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int iterationCount = 1000;
+    private final int keyLength = 256;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int saltLength = keyLength / 8; // same size as key output
 
     public String encrypt(String plaintext, String password) {
 
@@ -40,15 +42,13 @@ public class Crypto {
             random.nextBytes(iv);
             IvParameterSpec ivParams = new IvParameterSpec(iv);
             cipher.init(Cipher.ENCRYPT_MODE, key, ivParams);
-            byte[] ciphertext = cipher.doFinal(plaintext.getBytes("UTF-8"));
+            byte[] ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
 
-            StringBuffer strBuf = new StringBuffer();
-            strBuf.append(encodeBase64(iv));
-            strBuf.append("]");
-            strBuf.append(encodeBase64(salt));
-            strBuf.append("]");
-            strBuf.append(encodeBase64(ciphertext));
-            return strBuf.toString();
+            return encodeBase64(iv) +
+                    "]" +
+                    encodeBase64(salt) +
+                    "]" +
+                    encodeBase64(ciphertext);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {
@@ -62,8 +62,6 @@ public class Crypto {
         } catch (BadPaddingException e) {
             e.printStackTrace();
         } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return "";
@@ -82,7 +80,7 @@ public class Crypto {
             IvParameterSpec ivParams = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, ivParams);
             byte[] plaintext = cipher.doFinal(cipherBytes);
-            return new String(plaintext , "UTF-8");
+            return new String(plaintext , StandardCharsets.UTF_8);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {
@@ -97,20 +95,17 @@ public class Crypto {
             throw new CryptoException(e);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         return "";
     }
 
-    protected String encodeBase64(byte[] plaintext) {
+    String encodeBase64(byte[] plaintext) {
         byte[] encodedBytes = Base64.encode(plaintext, Base64.DEFAULT);
         return new String(encodedBytes);
     }
 
-    protected byte[] decodeBase64(String ciphertext) {
-        byte[] decodedBytes = Base64.decode(ciphertext, Base64.DEFAULT);
-        return decodedBytes;
+    byte[] decodeBase64(String ciphertext) {
+        return Base64.decode(ciphertext, Base64.DEFAULT);
     }
 
     private SecretKey deriveSecretKey(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {

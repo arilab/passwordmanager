@@ -25,13 +25,15 @@ public class FileSystem {
         return file.exists();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void deleteFilestore(Context context) {
         File file = new File(context.getFilesDir(), FILESTORE);
         if (file.exists())
             file.delete();
     }
 
-    public Reader openInternalFile(Context context) throws IOException, CryptoException {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    Reader openInternalFile(Context context) throws IOException, CryptoException {
         File file = new File(context.getFilesDir(), FILESTORE);
         if (!file.exists()) file.createNewFile();
         RandomAccessFile f = new RandomAccessFile(file, "r");
@@ -40,7 +42,7 @@ public class FileSystem {
         return new StringReader(new Crypto().decrypt(new String(cipherText), MasterPassword.getInstance().getPassword()));
     }
 
-    public void writeFile(Context context, String content) throws IOException {
+    void writeFile(Context context, String content) throws IOException {
         File file = new File(context.getFilesDir(), FILESTORE);
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.write(new Crypto().encrypt(content, MasterPassword.getInstance().getPassword()));

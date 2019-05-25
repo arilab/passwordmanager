@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RetainedFragment extends Fragment {
-    private List<Entry> entries = new ArrayList<>();
+    private final List<Entry> entries = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

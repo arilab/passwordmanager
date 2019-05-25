@@ -24,7 +24,7 @@ import java.util.List;
 
 public class EntriesActivity extends AppCompatActivity {
 
-    private List<Entry> entries = new ArrayList<>();
+    private final List<Entry> entries = new ArrayList<>();
     private EntryArrayAdapter listAdapter;
 
     public static final int SAVE_ACTIVITY = 1;
