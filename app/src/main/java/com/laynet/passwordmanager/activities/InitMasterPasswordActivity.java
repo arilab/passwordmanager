@@ -1,4 +1,4 @@
-package com.laynet.passwordmanager;
+package com.laynet.passwordmanager.activities;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.laynet.passwordmanager.R;
+import com.laynet.passwordmanager.activities.MainActivity;
 import com.laynet.passwordmanager.model.DefaultEntryMaker;
 import com.laynet.passwordmanager.persist.EntryPersistence;
 import com.laynet.passwordmanager.persist.FileSystem;

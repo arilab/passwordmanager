@@ -1,4 +1,4 @@
-package com.laynet.passwordmanager;
+package com.laynet.passwordmanager.activities;
 
 import android.app.Fragment;
 import android.os.Bundle;

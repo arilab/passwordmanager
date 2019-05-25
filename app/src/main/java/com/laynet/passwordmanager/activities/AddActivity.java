@@ -1,4 +1,4 @@
-package com.laynet.passwordmanager;
+package com.laynet.passwordmanager.activities;
 
 
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.laynet.passwordmanager.R;
 import com.laynet.passwordmanager.model.Entry;
 
 public class AddActivity extends AppCompatActivity {

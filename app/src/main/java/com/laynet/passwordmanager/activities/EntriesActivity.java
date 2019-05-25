@@ -1,4 +1,4 @@
-package com.laynet.passwordmanager;
+package com.laynet.passwordmanager.activities;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.laynet.passwordmanager.R;
 import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
 import com.laynet.passwordmanager.model.Entry;
