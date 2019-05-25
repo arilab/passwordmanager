@@ -9,14 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.laynet.passwordmanager.model.Entry;
+import com.laynet.passwordmanager.model.DefaultEntryMaker;
 import com.laynet.passwordmanager.persist.EntryPersistence;
 import com.laynet.passwordmanager.persist.FileSystem;
 import com.laynet.passwordmanager.security.MasterPassword;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InitMasterPasswordActivity extends AppCompatActivity {
 
@@ -34,32 +32,29 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
                 EditText retypePasswordEdit = findViewById(R.id.retypePassword);
                 String retypePassword = retypePasswordEdit.getText().toString();
 
-                if (validatePassword(newPassword, retypePassword)) {
-                    removeWrongPasswordError();
-
-                    MasterPassword.getInstance().setPassword(newPassword);
-
-                    new FileSystem().deleteFilestore(getApplicationContext());
-
-                    List<Entry> entries = new ArrayList<>();
-                    Entry entry = new Entry(1, "Password Manager", "Me", "password");
-                    entries.add(entry);
-                    try {
-                        new EntryPersistence().write(getApplicationContext(), entries);
-                    } catch (IOException e) {
-                        Snackbar snackbar = Snackbar
-                                .make(view, R.string.filewritefailed, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-
-                    Intent output = new Intent();
-                    setResult(MainActivity.INIT_RESULT, output);
-                    finish();
-                } else {
-                    displayWrongPasswordError();
+                try {
+                    initIfSame(newPassword, retypePassword);
+                } catch (IOException e) {
+                    Snackbar snackbar = Snackbar
+                            .make(view, R.string.filewritefailed, Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
+                Intent output = new Intent();
+                setResult(MainActivity.INIT_RESULT, output);
+                finish();
             }
         });
+    }
+
+    private void initIfSame(String newPassword, String retypePassword) throws IOException {
+        if (!validatePassword(newPassword, retypePassword)) {
+            displayWrongPasswordError();
+            return;
+        }
+        removeWrongPasswordError();
+        MasterPassword.getInstance().setPassword(newPassword);
+        new FileSystem().deleteFilestore(getApplicationContext());
+        new EntryPersistence().write(getApplicationContext(), new DefaultEntryMaker().make());
     }
 
     private boolean validatePassword(String newPassword, String retypePassword) {
