@@ -2,25 +2,16 @@ package com.laynet.passwordmanager.persist;
 
 import android.content.Context;
 
-import com.laynet.passwordmanager.Exceptions.CryptoException;
+import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.security.Crypto;
 import com.laynet.passwordmanager.security.MasterPassword;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.StringReader;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 /**
  * Created by alain on 28/03/2018.

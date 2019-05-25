@@ -1,4 +1,4 @@
-package com.laynet.passwordmanager.Exceptions;
+package com.laynet.passwordmanager.exceptions;
 
 public class CryptoException extends Exception {
     public CryptoException() { super(); }

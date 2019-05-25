@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.laynet.passwordmanager.Exceptions.CryptoException;
+import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.adapters.EntryArrayAdapter;
 import com.laynet.passwordmanager.model.Entry;
 import com.laynet.passwordmanager.persist.EntryPersistence;

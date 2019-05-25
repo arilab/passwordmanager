@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.laynet.passwordmanager.Exceptions.CryptoException;
+import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.persist.EntryPersistence;
 import com.laynet.passwordmanager.security.MasterPassword;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.laynet.passwordmanager.Exceptions.CryptoException;
+import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.model.Entry;
 
 import java.io.IOException;

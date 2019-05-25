@@ -2,7 +2,7 @@ package com.laynet.passwordmanager.security;
 
 import android.util.Base64;
 
-import com.laynet.passwordmanager.Exceptions.CryptoException;
+import com.laynet.passwordmanager.exceptions.CryptoException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
