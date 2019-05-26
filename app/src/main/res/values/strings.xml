@@ -23,4 +23,5 @@
     <string name="change">Change</string>
     <string name="initialize">Initialize</string>
     <string name="initialize_success">Master Password Initialized</string>
+    <string name="action_backup">Backup</string>
 </resources>
