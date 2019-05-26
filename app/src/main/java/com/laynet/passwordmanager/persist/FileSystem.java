@@ -18,7 +18,7 @@ import java.io.StringReader;
  */
 
 public class FileSystem {
-    private static final String FILESTORE = "input.json";
+    private static final String FILESTORE = "input.bin";
 
     public boolean filestoreExists(Context context) {
         File file = new File(context.getFilesDir(), FILESTORE);
@@ -40,6 +40,10 @@ public class FileSystem {
         byte[] cipherText = new byte[(int)f.length()];
         f.readFully(cipherText);
         return new StringReader(new Crypto().decrypt(new String(cipherText), MasterPassword.getInstance().getPassword()));
+    }
+
+    public File getFilestore(Context context) {
+        return new File(context.getFilesDir(), FILESTORE);
     }
 
     void writeFile(Context context, String content) throws IOException {

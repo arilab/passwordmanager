@@ -1,6 +1,7 @@
 package com.laynet.passwordmanager.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 import com.laynet.passwordmanager.R;
 import com.laynet.passwordmanager.exceptions.CryptoException;
 import com.laynet.passwordmanager.persist.EntryPersistence;
+import com.laynet.passwordmanager.persist.FileSystem;
 import com.laynet.passwordmanager.security.MasterPassword;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,15 +87,26 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_backup:
-                doBackup();
+                shareFilestore();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void doBackup() {
+    private void shareFilestore() {
+        File filestore = new FileSystem().getFilestore(getApplicationContext());
 
+        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+        intentShareFile.setType("*/*");
+        intentShareFile.putExtra(Intent.EXTRA_STREAM,
+                Uri.parse("content://" + filestore.getAbsolutePath()));
+
+        //if you need
+        //intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Sharing File Subject);
+        //intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File Description");
+
+        startActivity(Intent.createChooser(intentShareFile, "Share File"));
     }
 
     private boolean validatePassword(String password) {
