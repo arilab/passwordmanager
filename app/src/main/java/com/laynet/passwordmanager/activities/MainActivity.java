@@ -1,10 +1,12 @@
 package com.laynet.passwordmanager.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -26,6 +28,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     public static final int INIT_RESULT = 1;
+    public static final int BACKUP_RESULT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +59,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, InitMasterPasswordActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, INIT_RESULT);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == INIT_RESULT) {
-            CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, R.string.initialize_success, Snackbar.LENGTH_LONG);
-            snackbar.show();
+        int result = 0;
+        if (requestCode == INIT_RESULT) {
+            result = R.string.initialize_failed;
+            if (resultCode == Activity.RESULT_OK) {
+                result = R.string.initialize_success;
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                result = R.string.initialize_cancelled;
+            }
+        } else if (requestCode == BACKUP_RESULT) {
+            result = R.string.backup_failed;
+            if (resultCode == Activity.RESULT_OK) {
+                result = R.string.backup_successful;
+            }
         }
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, result, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     @Override
@@ -96,17 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void shareFilestore() {
         File filestore = new FileSystem().getFilestore(getApplicationContext());
-
+        Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.laynet.passwordmanager.fileprovider", filestore);
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
-        intentShareFile.setType("*/*");
-        intentShareFile.putExtra(Intent.EXTRA_STREAM,
-                Uri.parse("content://" + filestore.getAbsolutePath()));
+        intentShareFile.setType("application/octet-stream");
+        intentShareFile.putExtra(Intent.EXTRA_STREAM, uri);
 
-        //if you need
-        //intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Sharing File Subject);
-        //intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File Description");
-
-        startActivity(Intent.createChooser(intentShareFile, "Share File"));
+        startActivityForResult(Intent.createChooser(intentShareFile, "Share File"), BACKUP_RESULT);
     }
 
     private boolean validatePassword(String password) {

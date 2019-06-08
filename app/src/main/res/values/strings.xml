@@ -22,6 +22,10 @@
     <string name="retype_password">Re-type New Master Password</string>
     <string name="change">Change</string>
     <string name="initialize">Initialize</string>
-    <string name="initialize_success">Master Password Initialized</string>
+    <string name="initialize_success">Master Password initialized</string>
+    <string name="initialize_failed">Master Password failed</string>
+    <string name="initialize_cancelled">Master Password cancelled</string>
     <string name="action_backup">Backup</string>
+    <string name="backup_successful">Backup successful</string>
+    <string name="backup_failed">Backup failed</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.laynet.passwordmanager.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +43,7 @@ public class InitMasterPasswordActivity extends AppCompatActivity {
                     snackbar.show();
                 }
                 Intent output = new Intent();
-                setResult(MainActivity.INIT_RESULT, output);
+                setResult(Activity.RESULT_OK, output);
                 finish();
             }
         });
